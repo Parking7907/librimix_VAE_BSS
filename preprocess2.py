@@ -24,23 +24,26 @@ music_list = glob(data_path)
 data_path2 = '/home/data/jinyoung/source_separation/Libri2Mix/wav16k/max/test/*/*'
 music_list2 = glob(data_path2)
 #pdb.set_trace()
+
+save_path = '/home/data/jinyoung/source_separation/Libri2Mix/wav16k/max_spectrogram/'
 print("music list :", len(music_list), len(music_list2))
 device = torch.device('cuda:1' if torch.cuda.is_available() else 'cpu')
 
 # 기본적으로 44.1kHz, => Win_len = 40ms, n_fft = win_len보다 크게. hop_len = 10ms.. 굳이?
-win_len = 2048
+win_len = 1024
 hop_length = 512
-n_fft = 2048
-fs = 4
+n_fft = 1024
+#fs = 4
 duration_len = 3
-save_path = '/home/data/jinyoung/source_separation/Libri2Mix/wav16k/max_spectrogram/'
+length = sampling * duration_len
+
+
 
 frame_num = 128 
 audio_maxlen = int(frame_num*256*16-1) 
 window=torch.hann_window(window_length=win_len, periodic=True, dtype=None, layout=torch.strided, device=None, requires_grad=False)
 best_loss = 10
 sampling = 16000
-length = sampling * duration_len
 source_list = ['bass.wav', 'drums.wav', 'mixture.wav', 'other.wav', 'vocals.wav']
 pkl_list = ['bass.pkl', 'drums.pkl', 'mixture.pkl', 'other.pkl', 'vocals.pkl']
 i= 0 
